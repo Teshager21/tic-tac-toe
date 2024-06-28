@@ -44,12 +44,33 @@ const Board=(currentGamePlayer)=>{
 
     } 
 };
-
 const gameBoard= Board(currentPlayer);
+boardArray=gameBoard.getBoard();
+//gameOver conditions
+const checkGameOver=()=>{
+    counter=0;
+    for(i=0;i<3;i++){
+        for(j=0;j<3;j++){
+            if(boardArray[i][j]===''){
+                gameOver=false;
+                break;
+            }else{
+                counter++;
+            }
+            // gameOver
+            if(counter==9){
+                gameOver=true;
+            }
+            console.log('game on');
+        }
+        
+    }
+}
+
 while(!gameOver){
-    let move=prompt('number of shit');
+    let move=prompt('input a cell reference');
     gameBoard.setBoardCell(parseInt(move));
     currentPlayer===player1?currentPlayer=player2:currentPlayer=player1;
-    gameOver=true;
-    console.log(gameBoard.getBoard());
+    checkGameOver();
+    console.log(boardArray);
 }
