@@ -50,6 +50,17 @@ boardArray=gameBoard.getBoard();
 const checkGameOver=()=>{
     
     counter=0;
+      //same mark diagonally
+      if((boardArray[0][0]===boardArray[1][1]) && (boardArray[0][0]===boardArray[2][2])&&boardArray[0][0]!==''){
+        gameOver=true;
+        console.log('been here'); 
+        return;
+    }
+    if((boardArray[0][2]===boardArray[1][1]) && (boardArray[0][2]===boardArray[2][0])&&boardArray[0][2]!==''){
+        gameOver=true;
+        console.log('been here'); 
+        return;
+    }
     for(i=0;i<3;i++){
         //same mark in a row
         if((boardArray[i][0]===boardArray[i][1]) && (boardArray[i][0]===boardArray[i][2])&&boardArray[i][0]!==''){
