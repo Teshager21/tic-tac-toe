@@ -27,7 +27,7 @@ const players={player1:player1,player2:player2}
 
 numOfMoves=0;
 let gameOver=false;
-currentPlayer='player1';
+currentPlayer='player2';
 
 const Board=(currentGamePlayer)=>{
     let currentPlayer=currentGamePlayer;
@@ -48,7 +48,7 @@ const Board=(currentGamePlayer)=>{
 
     } 
 };
-console.log('curren player when called',players[currentPlayer].getMark());
+// console.log('curren player when called',players[currentPlayer].getMark());
 const gameBoard= Board(currentPlayer);
 boardArray=gameBoard.getBoard();
 //gameOver conditions
@@ -108,6 +108,7 @@ const checkGameOver=()=>{
 //even listeners
 const boardUI=document.querySelector('.board');
 boardUI.addEventListener('click',(e)=>{
-    e.target.textContent= "X";
+    e.target.textContent= players[currentPlayer].getMark();
+    console.log('our player is:',currentPlayer)
 })
 console.log(boardUI);

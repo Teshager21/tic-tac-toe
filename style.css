@@ -16,11 +16,11 @@
 .board{
     display: grid;
     grid-template-columns: repeat(3,1fr);  
-    width: 50vh;
-    height: 50vh;
 }
 .cell{
     border:1px solid #abc;
+    width: 6rem;
+    height: 6rem;
     cursor: pointer;
     display: flex;
     justify-content: center;
