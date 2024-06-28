@@ -21,6 +21,10 @@
 }
 .cell{
     border:1px solid #abc;
-    /* width: 2rem;
-    height: 2rem; */
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bolder;
+    font-size: 2rem;
 }

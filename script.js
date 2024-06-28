@@ -97,10 +97,17 @@ const checkGameOver=()=>{
     }
 }
 
-while(!gameOver){
-    let move=prompt('input a cell reference');
-    gameBoard.setBoardCell(parseInt(move));
-    console.log('current player before',players[currentPlayer].getMark());
-    checkGameOver();
-    console.log(boardArray);
-}
+// while(!gameOver){
+//     let move=prompt('input a cell reference');
+//     gameBoard.setBoardCell(parseInt(move));
+//     console.log('current player before',players[currentPlayer].getMark());
+//     checkGameOver();
+//     console.log(boardArray);
+// }
+
+//even listeners
+const boardUI=document.querySelector('.board');
+boardUI.addEventListener('click',(e)=>{
+    e.target.textContent= "X";
+})
+console.log(boardUI);
