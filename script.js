@@ -48,9 +48,19 @@ const gameBoard= Board(currentPlayer);
 boardArray=gameBoard.getBoard();
 //gameOver conditions
 const checkGameOver=()=>{
+    
     counter=0;
     for(i=0;i<3;i++){
+        if((boardArray[i][0]===boardArray[i][1]) && (boardArray[i][0]===boardArray[i][2])&&boardArray[i][0]!==''){
+            gameOver=true;
+            console.log('been here'); 
+            break
+        
+        }
         for(j=0;j<3;j++){
+            //same mark in a row
+           
+            //when all cells are filled
             if(boardArray[i][j]===''){
                 gameOver=false;
                 break;
