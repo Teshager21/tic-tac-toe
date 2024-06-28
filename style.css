@@ -4,3 +4,23 @@
     box-sizing: border-box;
     /* background-color: orange; */
 }
+
+.container{
+    height:100vh;
+    width: 100vw;
+    display:grid;
+    align-items: center;
+    justify-content: center;
+}
+
+.board{
+    display: grid;
+    grid-template-columns: repeat(3,1fr);  
+    width: 50vh;
+    height: 50vh;
+}
+.cell{
+    border:1px solid #abc;
+    /* width: 2rem;
+    height: 2rem; */
+}
