@@ -19,19 +19,37 @@ const playerFactory=(playerMark,playerScore)=>{
 };
 
 const player1=playerFactory('',0);
-player2=playerFactory();
-console.log(player1);
+const player2=playerFactory();
 player1.setMark('X');
 player2.setMark('O');
-console.log('score is: ',player1.getScore())
-
+numOfMoves=0;
+let gameOver=false;
 currentPlayer=player1;
-const gameBoard=[['','',''],
-                 ['','',''],
-                 ['','','']];
-const setBoardCell=(position)=>{
-    gameBoard[parseInt((position-1)/3)][(position-1)%3]=currentPlayer.getMark();
-    console.log(gameBoard);
-}
 
-setBoardCell(1);
+const Board=(currentGamePlayer)=>{
+    const currentPlayer=currentGamePlayer;
+    let board=[['','',''],['','',''],['','','']];
+    return{
+        setBoardCell(position){
+            board[parseInt((position-1)/3)][(position-1)%3]=currentPlayer.getMark();
+        },
+        resetBoard(){
+            board=[['','',''],
+            ['','',''],
+            ['','','']];
+        },
+        getBoard(){
+            return board;
+        }
+
+    } 
+};
+
+const gameBoard= Board(currentPlayer);
+while(!gameOver){
+    let move=prompt('number of shit');
+    gameBoard.setBoardCell(parseInt(move));
+    currentPlayer===player1?currentPlayer=player2:currentPlayer=player1;
+    gameOver=true;
+    console.log(gameBoard.getBoard());
+}
