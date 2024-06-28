@@ -36,6 +36,7 @@ const Board=(currentGamePlayer)=>{
         setBoardCell(position){
             board[parseInt((position-1)/3)][(position-1)%3]=players[currentPlayer].getMark();
             currentPlayer==="player1"?currentPlayer="player2":currentPlayer="player1";
+            console.log('i was setting stuff here.',board,currentPlayer);
         },
         resetBoard(){
             board=[['','',''],
@@ -96,19 +97,36 @@ const checkGameOver=()=>{
         
     }
 }
+let move;
 
+//display
+const updateBoardDisplay=()=>{
+    for(i=0;i<3;i++){
+        for(j=0;j<3;j++){
+            let identifier=`cell-${3*i+j+1}`;
+            console.log('the id is: ',identifier)
+            document.getElementById(identifier).textContent=boardArray[i][j];
+        }
+    }
+}
+
+//even listeners
+const boardUI=document.querySelector('.board');
+boardUI.addEventListener('click',(e)=>{
+    // e.target.textContent= players[currentPlayer].getMark();
+    // console.log(e.target.getAttribute('id').slice(-1));
+    move=e.target.getAttribute('id').slice(-1);
+    // console.log(move);
+    gameBoard.setBoardCell(parseInt(move));
+    updateBoardDisplay();
+    checkGameOver();
+})
+console.log(boardUI);
 // while(!gameOver){
-//     let move=prompt('input a cell reference');
+//     //  move=prompt('input a cell reference');
+//     console.log('you clicked the cell',move)
 //     gameBoard.setBoardCell(parseInt(move));
 //     console.log('current player before',players[currentPlayer].getMark());
 //     checkGameOver();
 //     console.log(boardArray);
 // }
-
-//even listeners
-const boardUI=document.querySelector('.board');
-boardUI.addEventListener('click',(e)=>{
-    e.target.textContent= players[currentPlayer].getMark();
-    console.log('our player is:',currentPlayer)
-})
-console.log(boardUI);
