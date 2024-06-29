@@ -23,15 +23,18 @@
         </div>
         <div class="result"></div>
         <dialog id="nameInputDialog">
-            <button id="closeDialog">X</button>
+            <div>
+                <button id="closeDialog">X</button>
+            </div>
+            
             <form frommethod="dialog">
                 <div>
                     <label >Player 1: Write your name:</label>
-                    <input type="text" name="Name" id="playerName1" placeholder="e.g. John Knox" required>
+                    <input type="text" name="Name" id="playerName1" placeholder="e.g. John Knox" class="playerName" required>
                 </div>
                 <div>
                     <label >Player 2: Name:</label>
-                    <input type="text" name="name" id="playerName2" placeholder="e.g. John Knox" required>
+                    <input type="text" name="name" id="playerName2" placeholder="e.g. John Knox" class="playerName" required>
                 </div>
                 <input type="button" value="OK" id="confirmNameBtn">
          
