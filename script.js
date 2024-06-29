@@ -33,6 +33,7 @@ const players={player1:player1,player2:player2}
 
 numOfMoves=0;
 let gameState='';
+let winner='';
 let move;
 currentPlayer='player1';
 
@@ -49,12 +50,13 @@ const gameBoard=(()=>{
             setBoardCell(move);
             updateBoardDisplay();
             runGameLogic();
-            updateBoardDisplay();    
+            updateBoardDisplay(); 
+            currentPlayer==="player1"?currentPlayer="player2":currentPlayer="player1";  
+
     }}
     setBoardCell=(position)=>{
         if(board[parseInt((position-1)/3)][(position-1)%3]===''){
             board[parseInt((position-1)/3)][(position-1)%3]=players[currentPlayer].getMark();
-            currentPlayer==="player1"?currentPlayer="player2":currentPlayer="player1";
         }
        
     }
@@ -64,28 +66,35 @@ const gameBoard=(()=>{
                 boardUI.querySelector(`#cell-${3*i+j+1}`).textContent=board[i][j];
             }
         }
-        if(gameState==='over') result.textContent=`Game over! ${players[currentPlayer].getName()} won`;
+        if(gameState==='over') {
+            if(winner==='tie') result.textContent=`Game over! It's a tie`;
+            else result.textContent=`Game over! ${players[currentPlayer].getName()} won`;
+        }
     }
     runGameLogic=()=>{
         counter=0;
           
           if((board[0][0]===board[1][1]) && (board[0][0]===board[2][2])&&board[0][0]!==''){ //same mark diagonally
             gameState='over';
+            winner=currentPlayer;
             return;
         }
         if((board[0][2]===board[1][1]) && (board[0][2]===board[2][0])&&board[0][2]!==''){//same mark diagonally
             gameState='over';
+            winner=currentPlayer;
            
             return;
         }
        outer_loop: for(i=0;i<3;i++){
             if((board[i][0]===board[i][1]) && (board[i][0]===board[i][2])&&board[i][0]!==''){   //same mark in a row
                 gameState='over';
+                winner=currentPlayer;
                 break
             }
             for(j=0;j<3;j++){ 
                 if((board[0][j]===board[1][j]) && (board[0][j]===board[2][j])&&board[0][j]!==''){  //same mark in a column
                     gameState='over';
+                    winner=currentPlayer;
                     break outer_loop;
             }
                 //when all cells are filled
@@ -98,6 +107,7 @@ const gameBoard=(()=>{
                 // gameOver
                 if(counter==9){
                     gameState='over';
+                    winner='tie';
                     
                 }
             }
