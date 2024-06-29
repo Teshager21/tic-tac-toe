@@ -101,8 +101,9 @@ const gameBoard=(()=>{
             gameState='on';
         }
         if(gameState==='over') {
-            if(winner==='tie') result.textContent=`Game over! It's a tie`;
-            else result.textContent=`Game over! ${players[currentPlayer].getName()} won`;
+            if(player1.getScore()===player2.getScore()) result.textContent=`Game over! It's a tie`;
+            else if(player1.getScore()>player2.getScore) result.textContent=`Game over! ${player1.getName()} won`;
+            else result.textContent=`Game over! ${player2.getName()} won`;
         }
         displayArray();
         
