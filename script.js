@@ -1,8 +1,15 @@
 
-const playerFactory=(playerMark,playerScore)=>{
+const playerFactory=(playerName,playerMark,playerScore)=>{
     let mark=playerMark;
-    const score=playerScore;
+    let score=playerScore;
+    let name=playerName;
     return {
+    setName(newName){
+        name=newName;
+    },
+    getName(){
+        return name;
+    },
     setMark(newMark){
         mark=newMark;
     },
@@ -63,7 +70,7 @@ const Board=(currentGamePlayer)=>{
 const gameBoard= Board(currentPlayer);
 boardArray=gameBoard.getBoard();
 //gameOver conditions
-const checkGameOver=()=>{
+const runGameLogic=()=>{
     
     counter=0;
       //same mark diagonally
@@ -108,13 +115,41 @@ const checkGameOver=()=>{
 
 
 //even listeners
+const result=document.querySelector('.result');
 const boardUI=document.querySelector('.board');
 boardUI.addEventListener('click',(e)=>{
     if(!gameOver){
     move=e.target.getAttribute('id').slice(-1);
     gameBoard.setBoardCell(parseInt(move));
     gameBoard.updateBoardDisplay();
-    checkGameOver();
-    if(gameOver) alert(`game over ${currentPlayer}won`);
+    runGameLogic();
+    if(gameOver) result.textContent=`Game over! ${players[currentPlayer].getName()} won`;
+    gameBoard.updateBoardDisplay();
+
 }})
+
+//dialog
+const playBtn=document.querySelector('.play');
+playBtn.addEventListener('click',()=>{
+        
+        nameInputDialog.showModal();
+    
+})
+const nameInputDialog= document.querySelector('#nameInputDialog');
+const closeDialogBtn= nameInputDialog.querySelector('#closeDialog')
+const firstPlayerName=nameInputDialog.querySelector('#playerName1')
+const secondPlayerName=nameInputDialog.querySelector('#playerName2')
+closeDialogBtn.addEventListener('click',()=>{nameInputDialog.close();}) //close event
+const confirmNameBtn=nameInputDialog.querySelector('#confirmNameBtn')
+confirmNameBtn.addEventListener('click',(e)=>{
+    e.preventDefault();
+    nameInputDialog.close([firstPlayerName.value,secondPlayerName.value]);
+    const playerNames=nameInputDialog.returnValue.split(',');
+    player1.setName(playerNames[0]);
+    player2.setName(playerNames[1]);
+})
+
+
+
+
 

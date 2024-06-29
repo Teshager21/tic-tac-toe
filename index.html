@@ -9,6 +9,7 @@
 </head>
 <body>
     <div class="container">
+        <button class="play">Play</button>
         <div class="board">
             <div class="cell" id="cell-1"></div>
             <div class="cell" id="cell-2"></div>
@@ -20,6 +21,22 @@
             <div class="cell" id="cell-8"></div>
             <div class="cell" id="cell-9"></div>
         </div>
+        <div class="result"></div>
+        <dialog id="nameInputDialog">
+            <button id="closeDialog">X</button>
+            <form frommethod="dialog">
+                <div>
+                    <label >Player 1: Write your name:</label>
+                    <input type="text" name="Name" id="playerName1" placeholder="e.g. John Knox">
+                </div>
+                <div>
+                    <label >Player 2: Name:</label>
+                    <input type="text" name="name" id="playerName2" placeholder="e.g. John Knox">
+                </div>
+                <input type="button" value="OK" id="confirmNameBtn">
+         
+            </form>
+        </dialog>
     </div>
     
 </body>
