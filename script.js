@@ -69,29 +69,26 @@ const gameBoard=(()=>{
     runGameLogic=()=>{
        console.log('i was called');
         counter=0;
-          //same mark diagonally
-          if((board[0][0]===board[1][1]) && (board[0][0]===board[2][2])&&board[0][0]!==''){
+          
+          if((board[0][0]===board[1][1]) && (board[0][0]===board[2][2])&&board[0][0]!==''){ //same mark diagonally
+            gameState='over';
+            return;
+        }
+        if((board[0][2]===board[1][1]) && (board[0][2]===board[2][0])&&board[0][2]!==''){//same mark diagonally
             gameState='over';
            
             return;
         }
-        if((board[0][2]===board[1][1]) && (board[0][2]===board[2][0])&&board[0][2]!==''){
-            gameState='over';
-           
-            return;
-        }
-        for(i=0;i<3;i++){
-            //same mark in a row
-            if((board[i][0]===board[i][1]) && (board[i][0]===board[i][2])&&board[i][0]!==''){
+       outer_loop: for(i=0;i<3;i++){
+            if((board[i][0]===board[i][1]) && (board[i][0]===board[i][2])&&board[i][0]!==''){   //same mark in a row
                 gameState='over';
                 break
             }
-            for(j=0;j<3;j++){
-                //same mark in a column
-                if((board[0][j]===board[1][j]) && (board[0][j]===board[2][j])&&board[0][j]!==''){
+            for(j=0;j<3;j++){ 
+                if((board[0][j]===board[1][j]) && (board[0][j]===board[2][j])&&board[0][j]!==''){  //same mark in a column
                     gameState='over';
-                    break
-                }
+                    break outer_loop;
+            }
                 //when all cells are filled
                 if(board[i][j]===''){
                     gameState='on';
