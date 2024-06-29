@@ -40,6 +40,13 @@ currentPlayer='player1';
 const container=document.querySelector('.container');
 const result=container.querySelector('.result');
 
+const firstDisplayName=container.querySelector('.first-player-name');
+const secondDisplayName=container.querySelector('.second-player-name');
+const firstDisplayScore=container.querySelector('.first-player-score');
+const secondDisplayScore=container.querySelector('.second-player-score');
+
+
+
 
 const gameBoard=(()=>{
     const boardUI=container.querySelector('.board');
@@ -61,6 +68,10 @@ const gameBoard=(()=>{
        
     }
     updateBoardDisplay=()=>{
+        firstDisplayName.textContent=player1.getName();
+        secondDisplayName.textContent=player2.getName();
+        firstDisplayScore.textContent=player1.getScore();
+        secondDisplayScore.textContent=player2.getScore();
         for(i=0;i<3;i++){
             for(j=0;j<3;j++){
                 boardUI.querySelector(`#cell-${3*i+j+1}`).textContent=board[i][j];
@@ -158,6 +169,7 @@ confirmNameBtn.addEventListener('click',(e)=>{
         const playerNames=nameInputDialog.returnValue.split(',');
         player1.setName(playerNames[0]);
         player2.setName(playerNames[1]);
+        gameBoard.updateBoardDisplay();
     }
    
 })
