@@ -62,15 +62,18 @@ dialog>form>*{
     margin-top: 0.5rem;
 }
 dialog>form>input{
-    background-color:#1992d4;
-    color:white;
-    width: 96%;
-    border:none;    
-    padding-top: 0.5rem;
-    padding-bottom: 0.5rem;
-    border-radius: 0.5rem;
+    width: 96%;   
     justify-self: center;
     margin-top: 1rem;
+}
+
+.btn{
+    background-color:#1992d4;
+    color:white; 
+    border:none; 
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    border-radius: 0.5rem;   
 }
 #closeDialog{
     width: 1.6rem;
