@@ -67,7 +67,6 @@ const gameBoard=(()=>{
         if(gameState==='over') result.textContent=`Game over! ${players[currentPlayer].getName()} won`;
     }
     runGameLogic=()=>{
-       console.log('i was called');
         counter=0;
           
           if((board[0][0]===board[1][1]) && (board[0][0]===board[2][2])&&board[0][0]!==''){ //same mark diagonally
@@ -144,10 +143,13 @@ closeDialogBtn.addEventListener('click',()=>{nameInputDialog.close();}) //close 
 
 confirmNameBtn.addEventListener('click',(e)=>{
     e.preventDefault();
-    nameInputDialog.close([firstPlayerName.value,secondPlayerName.value]);
-    const playerNames=nameInputDialog.returnValue.split(',');
-    player1.setName(playerNames[0]);
-    player2.setName(playerNames[1]);
+    if(firstPlayerName.value!==''&&secondPlayerName.value!==''){
+        nameInputDialog.close([firstPlayerName.value,secondPlayerName.value]);
+        const playerNames=nameInputDialog.returnValue.split(',');
+        player1.setName(playerNames[0]);
+        player2.setName(playerNames[1]);
+    }
+   
 })
 
 
