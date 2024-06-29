@@ -48,6 +48,14 @@ const result=container.querySelector('.result');
 const gameBoard=(()=>{
     const boardUI=container.querySelector('.board');
     let board=[['','',''],['','',''],['','','']];
+
+    const displayArray=()=>{
+        for(i=0;i<3;i++){
+            for(j=0;j<3;j++){
+                boardUI.querySelector(`#cell-${3*i+j+1}`).textContent=board[i][j];
+            }
+        } 
+    }
     const clickHandler=(e)=>{
         if(gameState==='on'){
             move=parseInt(e.target.getAttribute('id').slice(-1));
@@ -64,6 +72,16 @@ const gameBoard=(()=>{
         }
        
     }
+    resetBoard=()=>{
+        board=[['','',''],
+        ['','',''],
+        ['','','']];
+        // updateBoardDisplay();
+    },
+     manageGameState=()=>{
+        
+     },
+
     updateBoardDisplay=()=>{
         
         const firstDisplayName=container.querySelector('.first-player-name');
@@ -75,21 +93,26 @@ const gameBoard=(()=>{
         secondDisplayName.textContent=`${player2.getName()} [${player2.getMark()}]`
         firstDisplayScore.textContent=player1.getScore();
         secondDisplayScore.textContent=player2.getScore();
-        for(i=0;i<3;i++){
-            for(j=0;j<3;j++){
-                boardUI.querySelector(`#cell-${3*i+j+1}`).textContent=board[i][j];
-            }
+        if(gameState==='continue'){
+            displayArray()
+            resetBoard()
+            // setTimeout(()=>{resetBoard()},3000);
+        
+            gameState='on';
         }
         if(gameState==='over') {
             if(winner==='tie') result.textContent=`Game over! It's a tie`;
             else result.textContent=`Game over! ${players[currentPlayer].getName()} won`;
         }
+        displayArray();
+        
+       
     }
     runGameLogic=()=>{
         counter=0;
           
           if((board[0][0]===board[1][1]) && (board[0][0]===board[2][2])&&board[0][0]!==''){ //same mark diagonally
-            gameState='over';
+            (numberOfRounds<3)?gameState='continue':gameState='over';
             winner=currentPlayer;
             numberOfRounds++;
             
@@ -101,7 +124,7 @@ const gameBoard=(()=>{
             return;
         }
         if((board[0][2]===board[1][1]) && (board[0][2]===board[2][0])&&board[0][2]!==''){//same mark diagonally
-            gameState='over';
+            (numberOfRounds<3)?gameState='continue':gameState='over';
             winner=currentPlayer;
             numberOfRounds++;
             players[currentPlayer].setScore(players[currentPlayer].getScore()+1);
@@ -109,7 +132,7 @@ const gameBoard=(()=>{
         }
        outer_loop: for(i=0;i<3;i++){
             if((board[i][0]===board[i][1]) && (board[i][0]===board[i][2])&&board[i][0]!==''){   //same mark in a row
-                gameState='over';
+                (numberOfRounds<3)?gameState='continue':gameState='over';
                 winner=currentPlayer;
                 numberOfRounds++;
                 players[currentPlayer].setScore(players[currentPlayer].getScore()+1);
@@ -117,7 +140,7 @@ const gameBoard=(()=>{
             }
             for(j=0;j<3;j++){ 
                 if((board[0][j]===board[1][j]) && (board[0][j]===board[2][j])&&board[0][j]!==''){  //same mark in a column
-                    gameState='over';
+                    (numberOfRounds<3)?gameState='continue':gameState='over';
                     winner=currentPlayer;
                     numberOfRounds++;
                     players[currentPlayer].setScore(players[currentPlayer].getScore()+1);
@@ -132,7 +155,7 @@ const gameBoard=(()=>{
                 }
                 // gameOver
                 if(counter==9){
-                    gameState='over';
+                    (numberOfRounds<3)?gameState='continue':gameState='over';
                     winner='tie';
                       numberOfRounds++;  
                 }
@@ -142,12 +165,7 @@ const gameBoard=(()=>{
     }
     return{setBoardCell,updateBoardDisplay,runGameLogic
         ,
-        resetBoard(){
-            board=[['','',''],
-            ['','',''],
-            ['','','']];
-            updateBoardDisplay();
-        },
+        resetBoard,
         getBoard(){
             return board;
         },
