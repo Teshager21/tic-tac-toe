@@ -57,6 +57,10 @@
     
     const gameBoard=(()=>{
         const board=container.querySelector('.board');
+        const playBtn=container.querySelector('.play');
+        const nameInputDialog= container.querySelector('#nameInputDialog');
+        const closeDialogBtn= nameInputDialog.querySelector('#closeDialog')
+        const confirmNameBtn=nameInputDialog.querySelector('#confirmNameBtn')
     
         const displayArray=()=>{
             for(i=0;i<3;i++){
@@ -82,7 +86,28 @@
         } 
     const bindEvent=()=>{
                 board.addEventListener('click',clickHandler,false);
+                playBtn.addEventListener('click',()=>{nameInputDialog.showModal(); });//play
+                closeDialogBtn.addEventListener('click',()=>{nameInputDialog.close();}) //close event
+                confirmNameBtn.addEventListener('click',captureDialogReturnValue);
             } 
+    const captureDialogReturnValue=(e)=>{
+        const firstPlayerName=nameInputDialog.querySelector('#playerName1')
+        const secondPlayerName=nameInputDialog.querySelector('#playerName2')
+        e.preventDefault();
+        if(firstPlayerName.value!==''&&secondPlayerName.value!==''){
+            nameInputDialog.close([firstPlayerName.value,secondPlayerName.value]);
+            const playerNames=nameInputDialog.returnValue.split(',');
+            player1.setName(playerNames[0]);
+            player2.setName(playerNames[1]);
+            resetEntries();
+            numberOfRounds=0;
+            player1.setScore(0);
+            player2.setScore(0);
+            gameOutCome='';
+            gameBoard.updateBoardDisplay();
+            gameState='on';
+        } 
+}  
         
         return{updateBoardDisplay,bindEvent} 
     })();
@@ -102,7 +127,7 @@
             else{ gameOutCome =`${players[currentPlayer].getName()}'s turn`;}
 
         if(gameState!==''){
-            
+            gameOutcome='';
             gameBoard.updateBoardDisplay(); 
         }
           
@@ -173,37 +198,4 @@
     }
     gameBoard.bindEvent();
     
-    //dialog--newGame
-    const playBtn=container.querySelector('.play');
-    playBtn.addEventListener('click',()=>{   
-            nameInputDialog.showModal();      
-    })
-    const nameInputDialog= container.querySelector('#nameInputDialog');
-    const closeDialogBtn= nameInputDialog.querySelector('#closeDialog')
-    const confirmNameBtn=nameInputDialog.querySelector('#confirmNameBtn')
-    
-    closeDialogBtn.addEventListener('click',()=>{nameInputDialog.close();
-    }) //close event
-    
-    const captureDialogReturnValue=(e)=>{
-        const firstPlayerName=nameInputDialog.querySelector('#playerName1')
-        const secondPlayerName=nameInputDialog.querySelector('#playerName2')
-        e.preventDefault();
-        if(firstPlayerName.value!==''&&secondPlayerName.value!==''){
-            nameInputDialog.close([firstPlayerName.value,secondPlayerName.value]);
-            const playerNames=nameInputDialog.returnValue.split(',');
-            player1.setName(playerNames[0]);
-            player2.setName(playerNames[1]);
-            resetEntries();
-            numberOfRounds=0;
-            player1.setScore(0);
-            player2.setScore(0);
-            gameState='on';
-            gameBoard.updateBoardDisplay();
-        }  
-    }
-    
-    confirmNameBtn.addEventListener('click',captureDialogReturnValue)
-    
-    
-  })();
+    })();
