@@ -88,9 +88,9 @@ const gameBoard=(()=>{
         const secondDisplayName=container.querySelector('.second-player-name');
         const firstDisplayScore=container.querySelector('.first-player-score');
         const secondDisplayScore=container.querySelector('.second-player-score');
-        console.log(player1.getScore());
-        firstDisplayName.textContent=`${player1.getName()} [${player1.getMark()}]`;
-        secondDisplayName.textContent=`${player2.getName()} [${player2.getMark()}]`
+
+        firstDisplayName.innerText=player1.getName();
+        secondDisplayName.textContent=player2.getName();
         firstDisplayScore.textContent=player1.getScore();
         secondDisplayScore.textContent=player2.getScore();
         if(gameState==='continue'){

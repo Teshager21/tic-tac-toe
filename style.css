@@ -30,12 +30,33 @@ aside{
 }
 
 .card{
-    padding: 1rem;
     border:1px solid rgb(0,0,0,20%);
     border-radius: 0.5rem;
     display: flex;
-    justify-content: space-between;
+    justify-content: start;
     padding-right: 1rem;
+    gap: 1rem;
+}   
+
+.card div{
+    width:100%;
+    display: flex;
+    justify-content: space-between;
+    align-content: center;
+    margin: auto;
+}
+
+.card>span:first-child{
+      padding: 1rem;
+      padding-right: 1.5rem;
+      padding-left: 1.5rem;
+      border-top-left-radius: 0.5rem;
+      border-bottom-left-radius: 0.5rem;;
+      color: white;
+        align-self: stretch;
+        overflow: hidden;
+        /* height: 100%; */
+    background-color: orange;
 }
 .activities{
     justify-self: stretch;
@@ -134,4 +155,14 @@ dialog:focus{
 
 dialog::backdrop{
     background-color: rgba(99,99,99,55%);
+}
+
+aside>p:nth-child(2){
+    padding-left: 4rem;
+    padding-right: 1rem;
+    display: flex;
+    justify-content: space-between;
+    font-weight: bold;
+    font-size: 0.8rem;
+    color:#888;
 }
