@@ -38,8 +38,10 @@ aside{
     padding-right: 1rem;
 }
 .activities{
-    justify-self: center;
+    justify-self: stretch;
+    align-self: stretch;
     display: grid;
+    background-color: #ddd;
 }
 .board{
     display: grid;
@@ -68,11 +70,13 @@ aside{
     justify-self: center;
     padding-left: 4rem;
     padding-right: 4rem;
+    align-self: center;
 }
 
 .result{
-    color:darkgrey;
+    color:#555;
     font-size: 1.5rem;
+    justify-self: center;
 }
 
 dialog{

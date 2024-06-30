@@ -25,7 +25,7 @@ const player=(playerName='',playerMark='',playerScore=0)=>{
 }
 };
 
-let numberOfRounds=0;
+let numberOfRounds=1;
 const player1=player();
 const player2=player();
 player1.setMark('X');
@@ -104,7 +104,7 @@ const gameBoard=(()=>{
             if(player1.getScore()===player2.getScore()) result.textContent=`Game over! It's a tie`;
             else if(player1.getScore()>player2.getScore()) result.textContent=`Game over! ${player1.getName()} won`;
             else result.textContent=`Game over! ${player2.getName()} won`;
-        }else result.textContent=``;
+        }else result.textContent=`${players[currentPlayer==="player1"?"player2":"player1"].getName()}'s turn`;
         displayArray();
         
        
@@ -118,6 +118,7 @@ const gameBoard=(()=>{
             }else {
                 gameState='over';
                 winner=currentPlayer;
+                // return;
             }
             
             numberOfRounds++;
