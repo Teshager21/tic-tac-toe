@@ -36,51 +36,35 @@
     let gameState='';
     let winner='';
     let move;
-    currentPlayer='player1';
+    let currentPlayer='player1';
+    let gameOutCome='';
     
     const container=document.querySelector('.container');
     const result=container.querySelector('.result');
     
     
     
+    let entries=[['','',''],['','',''],['','','']];
+    resetEntries=()=>{entries=[['','',''],['','',''],['','','']];
+    }
+    recordEntry=(position)=>{
+        if(entries[parseInt((position-1)/3)][(position-1)%3]===''){
+            entries[parseInt((position-1)/3)][(position-1)%3]=players[currentPlayer].getMark();
+        }
+       
+    }
     
     
     const gameBoard=(()=>{
-        const boardUI=container.querySelector('.board');
-        let board=[['','',''],['','',''],['','','']];
+        const board=container.querySelector('.board');
     
         const displayArray=()=>{
             for(i=0;i<3;i++){
                 for(j=0;j<3;j++){
-                    boardUI.querySelector(`#cell-${3*i+j+1}`).textContent=board[i][j];
+                    board.querySelector(`#cell-${3*i+j+1}`).textContent=entries[i][j];
                 }
             } 
         }
-        const clickHandler=(e)=>{
-            if(gameState==='on'){
-                move=parseInt(e.target.getAttribute('id').slice(-1));
-                setBoardCell(move);
-                updateBoardDisplay();
-                runGameLogic();
-                updateBoardDisplay(); 
-                currentPlayer==="player1"?currentPlayer="player2":currentPlayer="player1";  
-    
-        }}
-        setBoardCell=(position)=>{
-            if(board[parseInt((position-1)/3)][(position-1)%3]===''){
-                board[parseInt((position-1)/3)][(position-1)%3]=players[currentPlayer].getMark();
-            }
-           
-        }
-        resetBoard=()=>{
-            board=[['','',''],
-            ['','',''],
-            ['','','']];
-            // updateBoardDisplay();
-        },
-         manageGameState=()=>{
-            
-         },
     
         updateBoardDisplay=()=>{
             
@@ -93,121 +77,124 @@
             secondDisplayName.textContent=player2.getName();
             firstDisplayScore.textContent=player1.getScore();
             secondDisplayScore.textContent=player2.getScore();
-            if(gameState==='continue'){
-                displayArray()
-                resetBoard()
-                // setTimeout(()=>{resetBoard()},3000);
-                gameState='on';
-                
-            }
-            if(gameState==='over') {
-                if(player1.getScore()===player2.getScore()) result.textContent=`Game over! It's a tie`;
-                else if(player1.getScore()>player2.getScore()) result.textContent=`Game over! ${player1.getName()} won`;
-                else result.textContent=`Game over! ${player2.getName()} won`;
-            }else result.textContent=`${players[currentPlayer==="player1"?"player2":"player1"].getName()}'s turn`;
+            result.textContent=gameOutCome;
             displayArray();
-            
-           
+        } 
+    const bindEvent=()=>{
+                board.addEventListener('click',clickHandler,false);
+            } 
+        
+        return{updateBoardDisplay,bindEvent} 
+    })();
+    const clickHandler=(e)=>{
+        if(gameState==='on') play(e);
+        if(gameState==='continue'){
+            gameBoard.updateBoardDisplay();
+            resetEntries()
+            gameState='on'; 
+            gameOutcome='';
         }
-        runGameLogic=()=>{
-            counter=0;
-              
-              if((board[0][0]===board[1][1]) && (board[0][0]===board[2][2])&&board[0][0]!==''){ //same mark diagonally
-                if(numberOfRounds<3){
-                    gameState='continue'
-                }else {
-                    gameState='over';
-                    winner=currentPlayer;
-                    // return;
-                }
-                
-                numberOfRounds++;
-                
-                const newScore=players[currentPlayer].getScore()+1;
-                players[currentPlayer].setScore(newScore);
-                return;
+        else if(gameState==='over') {
+                if(player1.getScore()===player2.getScore()) gameOutCome=`Game over! It's a tie`;
+                else if(player1.getScore()>player2.getScore()) gameOutCome=`Game over! ${player1.getName()} won`;
+                else gameOutCome=`Game over! ${player2.getName()} won`;
             }
-            if((board[0][2]===board[1][1]) && (board[0][2]===board[2][0])&&board[0][2]!==''){//same mark diagonally
+            else{ gameOutCome =`${players[currentPlayer].getName()}'s turn`;}
+
+        if(gameState!==''){
+            
+            gameBoard.updateBoardDisplay(); 
+        }
+          
+        }
+    const play=(e)=>{
+        move=parseInt(e.target.getAttribute('id').slice(-1));
+        recordEntry(move);
+        runGameLogic();
+        updateBoardDisplay(); 
+        currentPlayer==="player1"?currentPlayer="player2":currentPlayer="player1";
+    }
+    runGameLogic=()=>{
+        counter=0;
+          
+          if((entries[0][0]===entries[1][1]) && (entries[0][0]===entries[2][2])&&entries[0][0]!==''){ //same mark diagonally
+            if(numberOfRounds<3){
+                gameState='continue'
+            }else {
+                gameState='over';
+                winner=currentPlayer;
+            }
+            
+            numberOfRounds++;
+            
+            const newScore=players[currentPlayer].getScore()+1;
+            players[currentPlayer].setScore(newScore);
+            return;
+        }
+        if((entries[0][2]===entries[1][1]) && (entries[0][2]===entries[2][0])&&entries[0][2]!==''){//same mark diagonally
+            (numberOfRounds<3)?gameState='continue':gameState='over';
+            winner=currentPlayer;
+            numberOfRounds++;
+            players[currentPlayer].setScore(players[currentPlayer].getScore()+1);
+            return;
+        }
+       outer_loop: for(i=0;i<3;i++){
+            if((entries[i][0]===entries[i][1]) && (entries[i][0]===entries[i][2])&&entries[i][0]!==''){   //same mark in a row
                 (numberOfRounds<3)?gameState='continue':gameState='over';
                 winner=currentPlayer;
                 numberOfRounds++;
                 players[currentPlayer].setScore(players[currentPlayer].getScore()+1);
-                return;
+                break
             }
-           outer_loop: for(i=0;i<3;i++){
-                if((board[i][0]===board[i][1]) && (board[i][0]===board[i][2])&&board[i][0]!==''){   //same mark in a row
+            for(j=0;j<3;j++){ 
+                if((entries[0][j]===entries[1][j]) && (entries[0][j]===entries[2][j])&&entries[0][j]!==''){  //same mark in a column
                     (numberOfRounds<3)?gameState='continue':gameState='over';
                     winner=currentPlayer;
                     numberOfRounds++;
                     players[currentPlayer].setScore(players[currentPlayer].getScore()+1);
-                    break
-                }
-                for(j=0;j<3;j++){ 
-                    if((board[0][j]===board[1][j]) && (board[0][j]===board[2][j])&&board[0][j]!==''){  //same mark in a column
-                        (numberOfRounds<3)?gameState='continue':gameState='over';
-                        winner=currentPlayer;
-                        numberOfRounds++;
-                        players[currentPlayer].setScore(players[currentPlayer].getScore()+1);
-                        break outer_loop;
-                }
-                    //when all cells are filled
-                    if(board[i][j]===''){
-                        gameState='on';
-                        break;
-                    }else{
-                        counter++;
-                    }
-                    // gameOver
-                    if(counter==9){
-                        (numberOfRounds<3)?gameState='continue':gameState='over';
-                        winner='tie';
-                          numberOfRounds++;  
-                    }
-                }
-                
+                    break outer_loop;
             }
+                //when all cells are filled
+                if(entries[i][j]===''){
+                    gameState='on';
+                    break;
+                }else{
+                    counter++;
+                }
+                // gameOver
+                if(counter==9){
+                    (numberOfRounds<3)?gameState='continue':gameState='over';
+                    winner='tie';
+                      numberOfRounds++;  
+                }
+            }
+            
         }
-        return{setBoardCell,updateBoardDisplay,runGameLogic
-            ,
-            resetBoard,
-            getBoard(){
-                return board;
-            },
-             
-            bindEvent(){
-                boardUI.addEventListener('click',clickHandler,false);
-            }
-    
-    
-        } 
-    })();
-    
+    }
     gameBoard.bindEvent();
     
     //dialog--newGame
     const playBtn=container.querySelector('.play');
     playBtn.addEventListener('click',()=>{   
-            nameInputDialog.showModal();
-            
-            
+            nameInputDialog.showModal();      
     })
     const nameInputDialog= container.querySelector('#nameInputDialog');
     const closeDialogBtn= nameInputDialog.querySelector('#closeDialog')
-    const firstPlayerName=nameInputDialog.querySelector('#playerName1')
-    const secondPlayerName=nameInputDialog.querySelector('#playerName2')
     const confirmNameBtn=nameInputDialog.querySelector('#confirmNameBtn')
     
     closeDialogBtn.addEventListener('click',()=>{nameInputDialog.close();
     }) //close event
     
     const captureDialogReturnValue=(e)=>{
+        const firstPlayerName=nameInputDialog.querySelector('#playerName1')
+        const secondPlayerName=nameInputDialog.querySelector('#playerName2')
         e.preventDefault();
         if(firstPlayerName.value!==''&&secondPlayerName.value!==''){
             nameInputDialog.close([firstPlayerName.value,secondPlayerName.value]);
             const playerNames=nameInputDialog.returnValue.split(',');
             player1.setName(playerNames[0]);
             player2.setName(playerNames[1]);
-            gameBoard.resetBoard();
+            resetEntries();
             numberOfRounds=0;
             player1.setScore(0);
             player2.setScore(0);
@@ -218,11 +205,5 @@
     
     confirmNameBtn.addEventListener('click',captureDialogReturnValue)
     
+    
   })();
-
-
-
-
-
-
-
